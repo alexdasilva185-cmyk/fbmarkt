@@ -168,8 +168,11 @@ let btnPixWhatsapp;
 
 // Inicialização
 // Inicialização
+let retryCount = 0;
+const MAX_RETRIES = 10;
+
 function initApp() {
-  console.log("Initializing App...");
+  console.log(`Initializing App (Attempt ${retryCount + 1})...`);
 
   try {
     // Initialize DOM Elements
@@ -195,8 +198,21 @@ function initApp() {
     track = document.getElementById('testimonials-track');
     dotsContainer = document.getElementById('carousel-dots');
 
-    console.log("Products Grid:", productsGrid);
-    console.log("Testimonials Track:", track);
+    // Check if critical elements exist
+    if (!productsGrid || !track) {
+      if (retryCount < MAX_RETRIES) {
+        console.warn("Critical elements not found. Retrying in 300ms...");
+        retryCount++;
+        setTimeout(initApp, 300);
+        return;
+      } else {
+        console.error("Failed to find critical elements after multiple retries.");
+        alert("Erro ao carregar o site. Por favor, recarregue a página.");
+        return;
+      }
+    }
+
+    console.log("All elements found. Rendering...");
 
     renderProducts();
     setupEventListeners();
@@ -207,11 +223,8 @@ function initApp() {
   }
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initApp);
-} else {
-  initApp();
-}
+// Run immediately since we are at the bottom of the body
+initApp();
 
 // Renderização
 function renderProducts() {

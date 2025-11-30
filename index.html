@@ -332,7 +332,20 @@
 
   <script src="./qrcode.min.js"></script>
   <script src="./pix.js"></script>
-  <script src="./main.js"></script>
+  <script>
+    function logError(msg) {
+      const grid = document.getElementById('products-grid');
+      if (grid) {
+        grid.innerHTML += '<div style="color: red; background: rgba(0,0,0,0.8); padding: 10px; margin: 10px; border: 1px solid red;">' + msg + '</div>';
+      }
+    }
+    window.onerror = function (msg, url, lineNo) {
+      logError('Erro JS: ' + msg + ' (Linha ' + lineNo + ')');
+      return false;
+    };
+  </script>
+  <script src="./app.js"
+    onerror="logError('FALHA CRÍTICA: O arquivo app.js não foi carregado. Verifique se ele está na pasta.')"></script>
 </body>
 
 </html>

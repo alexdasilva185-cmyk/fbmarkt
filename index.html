@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fbmarketbr | Perfis e BMs Premium</title>
+  <meta name="description"
+    content="Perfis e BMs prontos para anunciar sem bloqueios. Entrega imediata, suporte 24h e garantia total.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div id="app">
+    <header class="site-header">
+      <div class="top-bar">
+        <p>Entrega imediata • Suporte 24h • Garantia 100%</p>
+      </div>
+      <div class="main-header container">
+        <div class="logo">
+          <h1>fbmarket<span>br</span></h1>
+        </div>
+        <div class="search-bar">
+          <i class="ph ph-magnifying-glass"></i>
+          <input type="text" placeholder="Buscar perfis, BMs, IPv6..." id="search-input">
+        </div>
+        <div class="header-actions">
+          <a href="https://wa.me/5551997140970" target="_blank" class="icon-btn" aria-label="Suporte WhatsApp">
+            <i class="ph ph-whatsapp-logo"></i>
+          </a>
+          <button class="icon-btn cart-trigger" aria-label="Carrinho">
+            <i class="ph ph-shopping-cart"></i>
+            <span class="cart-count">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-content">
+          <h2>Perfis e BMs prontos para anunciar <span class="text-highlight">sem bloqueios.</span></h2>
+          <p>Escolha seu produto, adicione ao carrinho e comece a anunciar hoje.</p>
+          <div class="hero-buttons">
+            <button class="btn btn-primary"
+              onclick="document.getElementById('catalog-start').scrollIntoView({behavior: 'smooth'})">VER
+              PRODUTOS</button>
+            <a href="https://wa.me/5551997140970" target="_blank" class="btn btn-outline">WHATSAPP (SUPORTE 24H)</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="filters-section container" id="catalog-start">
+        <div class="filters-header">
+          <h3>Catálogo</h3>
+          <div class="sort-options">
+            <select id="sort-select">
+              <option value="bestsellers">Mais vendidos</option>
+              <option value="price-asc">Menor preço</option>
+              <option value="price-desc">Maior preço</option>
+              <option value="newest">Recentes</option>
+            </select>
+          </div>
+        </div>
+        <div class="filters-bar">
+          <button class="filter-chip active" data-filter="all">Todos</button>
+          <button class="filter-chip" data-filter="bm">BMs</button>
+          <button class="filter-chip" data-filter="profile">Perfis</button>
+          <button class="filter-chip" data-filter="verified">Verificados</button>
+          <button class="filter-chip" data-filter="warmed">Aquecidos</button>
+          <button class="filter-chip" data-filter="combo">Combos</button>
+        </div>
+      </section>
+
+      <section class="products-section container">
+        <div class="products-grid" id="products-grid">
+          <!-- Produtos serão renderizados via JS -->
+        </div>
+      </section>
+
+      <section class="how-it-works container">
+        <div class="section-header">
+          <h3>Como Funciona</h3>
+          <p>Processo rápido, automatizado e seguro.</p>
+        </div>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h4>Escolha o produto</h4>
+            <p>Navegue pelo catálogo e selecione o perfil ideal.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h4>Pague</h4>
+            <p>Checkout seguro e rápido via WhatsApp/Pix.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h4>Receba em minutos</h4>
+            <p>Entrega imediata após confirmação.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <h4>Comece a anunciar</h4>
+            <p>Suporte total para subir suas campanhas.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="testimonials-section container">
+        <div class="section-header">
+          <h3>O que dizem nossos clientes</h3>
+          <p>Quem compra, recomenda.</p>
+        </div>
+        <div class="testimonials-carousel">
+          <div class="carousel-track-container">
+            <div class="carousel-track" id="testimonials-track">
+              <!-- Testimonials rendered via JS -->
+            </div>
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-btn prev-btn"><i class="ph ph-caret-left"></i></button>
+            <div class="carousel-dots" id="carousel-dots"></div>
+            <button class="carousel-btn next-btn"><i class="ph ph-caret-right"></i></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="guarantee-section">
+        <div class="container">
+          <div class="guarantee-header">
+            <i class="ph ph-shield-check guarantee-icon"></i>
+            <h3>Garantia fbmarketbr</h3>
+            <p>Na fbmarketbr, prezamos pela segurança e transparência em cada entrega. Por isso, todos os ativos
+              comprados em nossa plataforma contam com garantia de 24 horas a partir da entrega.</p>
+          </div>
+
+          <div class="guarantee-details">
+            <div class="guarantee-block">
+              <h4>O que cobre a garantia</h4>
+              <p>Durante esse período, você deve:</p>
+              <ul>
+                <li><i class="ph ph-check-circle"></i> Acessar o ativo com as credenciais fornecidas;</li>
+                <li><i class="ph ph-check-circle"></i> Verificar se todas as informações estão corretas;</li>
+                <li><i class="ph ph-check-circle"></i> Alterar os dados de acesso (senha, e-mail de recuperação, etc.)
+                  para sua segurança;</li>
+                <li><i class="ph ph-check-circle"></i> Confirmar que o ativo está funcionando conforme descrito no
+                  anúncio.</li>
+              </ul>
+              <p class="guarantee-note">Se dentro dessas 24 horas houver qualquer problema — como credenciais inválidas,
+                impossibilidade de login ou divergência nas informações fornecidas — a fbmarketbr fará a
+                substituição imediata ou oferecerá crédito para outro ativo.</p>
+            </div>
+
+            <div class="guarantee-block">
+              <h4>Por que apenas 24 horas?</h4>
+              <ul>
+                <li><i class="ph ph-info"></i> Ativos digitais são sensíveis e exclusivos.</li>
+                <li><i class="ph ph-info"></i> Após o período inicial, o cliente já deve ter alterado os dados e
+                  assumido total controle do ativo.</li>
+                <li><i class="ph ph-info"></i> Manter garantias além desse prazo traria riscos de uso indevido ou má-fé,
+                  o que prejudicaria tanto quem compra quanto quem vende.</li>
+              </ul>
+            </div>
+
+            <div class="guarantee-block security-block">
+              <h4>Reforço de segurança</h4>
+              <ul>
+                <li><i class="ph ph-lock-key"></i> Nunca compartilhe suas credenciais publicamente.</li>
+                <li><i class="ph ph-lock-key"></i> Faça sempre login e alterações dentro do prazo da garantia.</li>
+                <li><i class="ph ph-lock-key"></i> Caso note qualquer irregularidade, entre em contato imediatamente com
+                  o suporte fbmarketbr.</li>
+              </ul>
+              <p class="security-footer">Assim, garantimos uma experiência rápida, segura e justa para todos.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="faq-section container" id="faq">
+        <div class="section-header">
+          <h3>Perguntas Frequentes</h3>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Preciso usar VPN ou proxy para acessar o perfil ou BM?</summary>
+            <p>Não é obrigatório, mas em alguns casos recomendamos um ambiente de acesso limpo para evitar alertas de
+              segurança do Meta. Se necessário, enviamos instruções personalizadas após a compra.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Consigo usar esse BM ou perfil para anunciar em contas de clientes?</summary>
+            <p>Sim. Muitos gestores usam esses BMs e perfis para administrar contas de vários clientes. Basta conectar
+              os ativos corretamente e seguir as boas práticas enviadas no suporte.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Existe risco de bloqueio mesmo usando esses perfis?</summary>
+            <p>Todo ativo Meta tem risco, porém nossos perfis e BMs são configurados para minimizar ao máximo esse
+              risco. Além disso, fornecemos recomendações para operar com segurança e evitar gatilhos.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Posso trocar o e-mail e a senha do perfil após a compra?</summary>
+            <p>Sim, em muitos casos é possível alterar credenciais e definir sua própria segurança. Enviamos o
+              procedimento correto para que a alteração seja feita sem comprometer o perfil.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Os perfis já vêm com Pixel, BM ou página configurados?</summary>
+            <p>Depende do tipo de perfil adquirido. Alguns já vêm com BM e Pixel prontos, outros são contas limpas
+              apenas para criar sua própria estrutura. Na descrição de cada produto deixamos tudo claro.</p>
+          </details>
+          <details class="faq-item">
+            <summary>O suporte ajuda a configurar minhas primeiras campanhas?</summary>
+            <p>Sim! Oferecemos suporte para você entender a estrutura e começar suas campanhas de forma segura. Não é
+              gestão de tráfego completa, mas ajudamos com o essencial para evitar erros.</p>
+          </details>
+        </div>
+      </section>
+
+      <section class="cta-final">
+        <div class="container">
+          <h2>Os produtos estão disponíveis agora.</h2>
+          <p>Garanta o seu antes que acabe.</p>
+          <div class="cta-buttons">
+            <button class="btn btn-primary"
+              onclick="document.getElementById('catalog-start').scrollIntoView({behavior: 'smooth'})">Comprar
+              Agora</button>
+            <a href="https://wa.me/5551997140970" target="_blank" class="btn btn-outline">WhatsApp 24h</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <div class="footer-logo">
+          <h2>fbmarket<span>br</span></h2>
+          <p>© 2025 fbmarketbr – Todos os direitos reservados</p>
+        </div>
+        <div class="footer-links">
+          <a href="#catalog-start">Planos</a>
+          <a href="#faq">FAQ</a>
+          <a href="https://wa.me/5551997140970" target="_blank">Suporte</a>
+          <a href="privacy.html">Políticas de Privacidade</a>
+          <a href="termos.html">Termos</a>
+        </div>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/eu.alexdasilva/" target="_blank"><i class="ph ph-instagram-logo"></i></a>
+          <a href="https://wa.me/5551997140970" target="_blank"><i class="ph ph-whatsapp-logo"></i></a>
+        </div>
+      </div>
+      <div class="security-badge">
+        <i class="ph ph-lock-key"></i> Site Seguro
+      </div>
+    </footer>
+  </div>
+
+  <!-- Modais -->
+  <div class="modal-overlay" id="product-modal">
+    <div class="modal-content">
+      <button class="close-modal"><i class="ph ph-x"></i></button>
+      <div class="modal-body" id="modal-body-content">
+        <!-- Conteúdo dinâmico -->
+      </div>
+    </div>
+  </div>
+
+  <!-- PIX Modal -->
+  <div class="modal-overlay" id="pix-modal">
+    <div class="modal-content pix-modal-content">
+      <button class="close-modal" id="close-pix-modal"><i class="ph ph-x"></i></button>
+      <div class="modal-body">
+        <h3>Pagamento via PIX</h3>
+        <p>Escaneie o QR Code ou copie o código abaixo para pagar.</p>
+
+        <div class="pix-qr-container" id="pix-qrcode-container"></div>
+
+        <div class="pix-total">
+          <span>Total a pagar:</span>
+          <span id="pix-total-value">R$ 0,00</span>
+        </div>
+
+        <div class="pix-copy-container">
+          <input type="text" id="pix-copy-code" readonly>
+          <button class="btn btn-primary" id="btn-copy-pix">
+            <i class="ph ph-copy"></i> Copiar
+          </button>
+        </div>
+
+        <div class="pix-instructions">
+          <p><i class="ph ph-info"></i> Após o pagamento, envie o comprovante no WhatsApp.</p>
+        </div>
+
+        <a href="#" class="btn btn-outline btn-full" id="btn-pix-whatsapp">
+          <i class="ph ph-whatsapp-logo"></i> Enviar Comprovante
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carrinho Drawer -->
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="cart-header">
+      <h3>Seu Carrinho</h3>
+      <button class="close-cart"><i class="ph ph-x"></i></button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <!-- Itens do carrinho -->
+      <div class="empty-cart-msg">Seu carrinho está vazio.</div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total:</span>
+        <span id="cart-total-price">R$ 0,00</span>
+      </div>
+      <button class="btn btn-primary btn-full" id="checkout-btn">Finalizar no WhatsApp</button>
+      <button class="btn btn-success btn-full" id="pix-checkout-btn"
+        style="margin-top: 10px; background-color: #2ECC71; color: white;">
+        <i class="ph ph-qr-code"></i> Pagar com PIX
+      </button>
+    </div>
+  </div>
+
+  <script src="./qrcode.min.js"></script>
+  <script src="./pix.js"></script>
+  <script src="./main.js"></script>
+</body>
+
+</html>

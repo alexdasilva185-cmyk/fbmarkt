@@ -1,5 +1,3 @@
-
-
 // Dados dos Produtos
 const products = [
   {
@@ -166,14 +164,17 @@ let pixCopyCodeInput;
 let btnCopyPix;
 let btnPixWhatsapp;
 
-// Inicialização
-// Inicialização
-let retryCount = 0;
-const MAX_RETRIES = 10;
+// Carousel Elements
+let track;
+let dotsContainer;
+
+// Inicialização Simplificada e Robusta
+document.addEventListener('DOMContentLoaded', () => {
+  console.log("DOM Carregado. Iniciando App...");
+  initApp();
+});
 
 function initApp() {
-  console.log(`Initializing App (Attempt ${retryCount + 1})...`);
-
   try {
     // Initialize DOM Elements
     productsGrid = document.getElementById('products-grid');
@@ -198,33 +199,28 @@ function initApp() {
     track = document.getElementById('testimonials-track');
     dotsContainer = document.getElementById('carousel-dots');
 
-    // Check if critical elements exist
-    if (!productsGrid || !track) {
-      if (retryCount < MAX_RETRIES) {
-        console.warn("Critical elements not found. Retrying in 300ms...");
-        retryCount++;
-        setTimeout(initApp, 300);
-        return;
-      } else {
-        console.error("Failed to find critical elements after multiple retries.");
-        alert("Erro ao carregar o site. Por favor, recarregue a página.");
-        return;
-      }
+    if (!productsGrid) {
+      console.error("Elemento products-grid não encontrado!");
+      alert("Erro crítico: Elemento products-grid não encontrado.");
+      return;
     }
 
-    console.log("All elements found. Rendering...");
+    console.log("Elementos encontrados. Renderizando...");
+
+    // Limpar mensagem de carregamento
+    productsGrid.innerHTML = '';
 
     renderProducts();
     setupEventListeners();
     updateCartUI();
     initCarousel();
+
+    console.log("App inicializado com sucesso.");
   } catch (error) {
-    console.error("Error initializing app:", error);
+    console.error("Erro ao inicializar app:", error);
+    alert("Erro ao inicializar o site: " + error.message);
   }
 }
-
-// Run immediately since we are at the bottom of the body
-initApp();
 
 // Renderização
 function renderProducts() {
@@ -254,6 +250,14 @@ function renderProducts() {
   });
 
   if (!productsGrid) return;
+
+  // Force display
+  productsGrid.style.display = 'grid';
+
+  if (filtered.length === 0) {
+    productsGrid.innerHTML = '<p style="color: white; text-align: center; grid-column: 1/-1;">Nenhum produto encontrado.</p>';
+    return;
+  }
 
   productsGrid.innerHTML = filtered.map(product => `
     <div class="product-card">
@@ -296,10 +300,13 @@ function setupEventListeners() {
   });
 
   // Ordenação
-  document.getElementById('sort-select').addEventListener('change', (e) => {
-    currentSort = e.target.value;
-    renderProducts();
-  });
+  const sortSelect = document.getElementById('sort-select');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', (e) => {
+      currentSort = e.target.value;
+      renderProducts();
+    });
+  }
 
   // Busca
   const searchInput = document.getElementById('search-input');
@@ -311,18 +318,27 @@ function setupEventListeners() {
   }
 
   // Carrinho
-  document.querySelector('.cart-trigger').addEventListener('click', openCart);
-  document.querySelector('.close-cart').addEventListener('click', closeCart);
-  cartOverlay.addEventListener('click', closeCart);
+  const cartTrigger = document.querySelector('.cart-trigger');
+  if (cartTrigger) cartTrigger.addEventListener('click', openCart);
+
+  const closeCartBtn = document.querySelector('.close-cart');
+  if (closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
+
+  if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
 
   // Modal Produto
-  document.querySelector('.close-modal').addEventListener('click', closeModal);
-  modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) closeModal();
-  });
+  const closeModalBtn = document.querySelector('.close-modal');
+  if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+  }
 
   // Checkout WhatsApp
-  document.getElementById('checkout-btn').addEventListener('click', checkout);
+  const checkoutBtn = document.getElementById('checkout-btn');
+  if (checkoutBtn) checkoutBtn.addEventListener('click', checkout);
 
   // Checkout PIX
   if (pixCheckoutBtn) {
@@ -366,6 +382,8 @@ function removeFromCart(id) {
 }
 
 function updateCartUI() {
+  if (!cartTotalElement || !cartCountElement || !cartItemsContainer) return;
+
   const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -393,18 +411,19 @@ function updateCartUI() {
 }
 
 function openCart() {
-  cartDrawer.classList.add('open');
-  cartOverlay.classList.add('open');
+  if (cartDrawer) cartDrawer.classList.add('open');
+  if (cartOverlay) cartOverlay.classList.add('open');
 }
 
 function closeCart() {
-  cartDrawer.classList.remove('open');
-  cartOverlay.classList.remove('open');
+  if (cartDrawer) cartDrawer.classList.remove('open');
+  if (cartOverlay) cartOverlay.classList.remove('open');
 }
 
 // Funções do Modal Produto
 window.openProductModal = (id) => {
   const product = products.find(p => p.id === id);
+  if (!modalBody || !modalOverlay) return;
 
   modalBody.innerHTML = `
     <h3 class="modal-product-title">${product.title}</h3>
@@ -427,7 +446,7 @@ window.openProductModal = (id) => {
 }
 
 function closeModal() {
-  modalOverlay.classList.remove('open');
+  if (modalOverlay) modalOverlay.classList.remove('open');
 }
 
 // Checkout WhatsApp
@@ -474,26 +493,28 @@ function handlePixCheckout() {
     const payload = pix.getPayload(total);
 
     // Update UI
-    pixTotalValue.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
-    pixCopyCodeInput.value = payload;
+    if (pixTotalValue) pixTotalValue.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    if (pixCopyCodeInput) pixCopyCodeInput.value = payload;
 
     // Generate QR Code
     const qrContainer = document.getElementById('pix-qrcode-container');
-    qrContainer.innerHTML = ''; // Clear previous
+    if (qrContainer) {
+      qrContainer.innerHTML = ''; // Clear previous
 
-    if (typeof QRCode === 'undefined') {
-      alert("Erro: Biblioteca QR Code não carregada. Verifique se o arquivo qrcode.min.js está na pasta.");
-      return;
+      if (typeof QRCode === 'undefined') {
+        alert("Erro: Biblioteca QR Code não carregada. Verifique se o arquivo qrcode.min.js está na pasta.");
+        return;
+      }
+
+      new QRCode(qrContainer, {
+        text: payload,
+        width: 250,
+        height: 250,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
     }
-
-    new QRCode(qrContainer, {
-      text: payload,
-      width: 250,
-      height: 250,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.M
-    });
 
     // Setup WhatsApp Button with proof message
     let message = "Olá, realizei o pagamento via PIX do pedido:\n\n";
@@ -502,7 +523,7 @@ function handlePixCheckout() {
     });
     message += `\nTotal: R$ ${total.toFixed(2)}\nTXID: ${txid}\n\nSegue o comprovante:`;
 
-    btnPixWhatsapp.href = `https://wa.me/5551997140970?text=${encodeURIComponent(message)}`;
+    if (btnPixWhatsapp) btnPixWhatsapp.href = `https://wa.me/5551997140970?text=${encodeURIComponent(message)}`;
 
     openPixModal();
     closeCart();
@@ -513,14 +534,15 @@ function handlePixCheckout() {
 }
 
 function openPixModal() {
-  pixModal.classList.add('open');
+  if (pixModal) pixModal.classList.add('open');
 }
 
 function closePixModal() {
-  pixModal.classList.remove('open');
+  if (pixModal) pixModal.classList.remove('open');
 }
 
 function copyPixCode() {
+  if (!pixCopyCodeInput) return;
   pixCopyCodeInput.select();
   document.execCommand('copy');
 
@@ -543,21 +565,6 @@ function generateUUID() {
   }
   return result;
 }
-
-// Checkout (WhatsApp)
-function checkout() {
-  if (cart.length === 0) return;
-
-  const message = cart.map(item =>
-    `*${item.quantity}x ${item.title}* - R$ ${(item.price * item.quantity).toFixed(2)}`
-  ).join('%0A');
-
-  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const finalMessage = `Olá, gostaria de finalizar meu pedido:%0A%0A${message}%0A%0A*Total: R$ ${total.toFixed(2)}*`;
-
-  window.open(`https://wa.me/5551997140970?text=${finalMessage}`, '_blank');
-}
-
 
 // Testimonials Data
 const testimonials = [
@@ -611,8 +618,6 @@ const testimonials = [
 // Carousel Logic
 let currentSlide = 0;
 let itemsPerView = 1;
-let track;
-let dotsContainer;
 
 function renderStars(rating) {
   let starsHtml = '';
@@ -651,20 +656,26 @@ function initCarousel() {
     createDots();
   });
 
-  document.querySelector('.prev-btn').addEventListener('click', () => {
-    if (currentSlide > 0) {
-      currentSlide--;
-      updateCarousel();
-    }
-  });
+  const prevBtn = document.querySelector('.prev-btn');
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateCarousel();
+      }
+    });
+  }
 
-  document.querySelector('.next-btn').addEventListener('click', () => {
-    const maxSlide = Math.ceil(testimonials.length / itemsPerView) - 1;
-    if (currentSlide < maxSlide) {
-      currentSlide++;
-      updateCarousel();
-    }
-  });
+  const nextBtn = document.querySelector('.next-btn');
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const maxSlide = Math.ceil(testimonials.length / itemsPerView) - 1;
+      if (currentSlide < maxSlide) {
+        currentSlide++;
+        updateCarousel();
+      }
+    });
+  }
 }
 
 function updateItemsPerView() {
@@ -692,16 +703,6 @@ function createDots() {
 
 function updateCarousel() {
   if (!track) return;
-  const itemWidth = 100 / itemsPerView;
-  const moveAmount = currentSlide * itemWidth * itemsPerView; // Move by 'page'
-
-  // Adjust for gap (approximate)
-  // For precise gap handling with flex, it's easier to move by percentage of container
-  // But since we have gap: 20px, we need to account for it in CSS or just use simple percentage
-  // Simple percentage works well enough if we assume the gap is part of the layout flow
-
-  // Actually, let's just slide by index * (100 / itemsPerView)%
-  // But we want to slide by 'groups' of items to match dots
 
   track.style.transform = `translateX(-${currentSlide * 100}%)`;
 
@@ -710,8 +711,3 @@ function updateCarousel() {
     dot.classList.toggle('active', index === currentSlide);
   });
 }
-
-// Initialize Carousel on Load
-
-
-

@@ -526,6 +526,17 @@ function handlePixCheckout() {
     if (btnPixWhatsapp) btnPixWhatsapp.href = `https://wa.me/5551997140970?text=${encodeURIComponent(message)}`;
 
     openPixModal();
+
+    // Google Ads Conversion Tracking
+    if (typeof gtag === 'function') {
+      gtag('event', 'conversion', {
+        'send_to': 'AW-17761260609/ITA4CJi5kcobEMGonZVC',
+        'value': total,
+        'currency': 'BRL',
+        'transaction_id': txid
+      });
+    }
+
     closeCart();
   } catch (e) {
     console.error(e);

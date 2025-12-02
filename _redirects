@@ -1,2 +1,4 @@
 /privacy  /politica.html  200
 /termos   /termos-uso.html   200
+/privacy.html /politica.html 301
+/termos.html /termos-uso.html 301

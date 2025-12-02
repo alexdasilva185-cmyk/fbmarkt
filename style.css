@@ -1386,3 +1386,19 @@ h4 {
     padding: 60px 0 40px;
   }
 }
+
+/* Privacy & Terms Content */
+.privacy-content {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--color-surface);
+  padding: 2rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+@media (max-width: 768px) {
+  .privacy-content {
+    padding: 1.5rem;
+  }
+}
